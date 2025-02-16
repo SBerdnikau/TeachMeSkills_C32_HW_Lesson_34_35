@@ -17,15 +17,15 @@ public class Main {
         System.setProperty("java.util.logging.config.file", "src/main/resources/logging.properties");
         try {
             UserDAO userDAO = new UserDAO();
-            User user = new User(7, "Mihail", "mahail@gmail.com");
+            User user = new User(1, "Mihail", "mahail@gmail.com");
             userDAO.insertUser(user);
 
             BookDAO bookDAO = new BookDAO();
-            Book book = new Book( 7,"Чистый код. Создание, анализ и рефакторин", "Роберт Мартин", 2015);
+            Book book = new Book( 1,"Чистый код. Создание, анализ и рефакторин", "Роберт Мартин", 2015);
             bookDAO.insertBook(book);
 
             ReservationDAO reservationDAO = new ReservationDAO();
-            Reservation reservation = new Reservation( 7, book.getId(), user.getId(), Date.valueOf("2025-01-05"), Date.valueOf("2025-06-01"));
+            Reservation reservation = new Reservation( 1, book.getId(), user.getId(), Date.valueOf("2025-01-05"), Date.valueOf("2025-06-01"));
             reservationDAO.insertReservation(reservation);
 
             System.out.println("The last registered used is -> " + userDAO.getLastRegisteredUser());
