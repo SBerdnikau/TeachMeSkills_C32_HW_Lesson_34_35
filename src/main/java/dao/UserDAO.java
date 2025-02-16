@@ -5,10 +5,7 @@ import exception.UserDAOException;
 import model.User;
 import util.SQLQuery;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -22,7 +19,7 @@ public class UserDAO {
                 preparedStatement.setString(1, user.getUsername());
                 preparedStatement.setString(2, user.getEmail());
                 preparedStatement.executeUpdate();
-                LOGGER.log(Level.INFO, "Insert user successfully");
+                LOGGER.log(Level.INFO, "User is added successfully -> " + user.getUsername());
                 connection.commit();
 
             }catch (SQLException e){
@@ -37,10 +34,9 @@ public class UserDAO {
         }
     }
 
-
     public User getUserByID(long id) throws UserDAOException {
         try(Connection connection = ConnectionDB.getInstance().getConnection()) {
-            try(PreparedStatement preparedStatement = connection.prepareStatement(SQLQuery.SELECT_USER)) {
+            try(PreparedStatement preparedStatement = connection.prepareStatement(SQLQuery.SELECT_USER_BY_ID)) {
                 preparedStatement.setLong(1, id);
                 ResultSet resultSet = preparedStatement.executeQuery();
                 if(resultSet.next()) {
@@ -55,8 +51,11 @@ public class UserDAO {
 
     public String getLastRegisteredUser() throws UserDAOException {
         try(Connection connection = ConnectionDB.getInstance().getConnection()) {
-            try(PreparedStatement preparedStatement = connection.prepareStatement(SQLQuery.SELECT_FUNCTION_USER)) {
-
+            try(CallableStatement callableStatement = connection.prepareCall(SQLQuery.SELECT_FUNCTION_LAST_REG_USER)) {
+                ResultSet result = callableStatement.executeQuery();
+                if(result.next()) {
+                    return result.getString(1);
+                }
             }
         } catch (SQLException e) {
             throw new UserDAOException("Database connect error -> " +  e.getMessage());

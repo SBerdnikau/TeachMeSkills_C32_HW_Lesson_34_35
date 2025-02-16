@@ -18,6 +18,13 @@ public class Reservation {
         this.returnDate = returnDate;
     }
 
+    public Reservation(long bookId, long userId, Date reservationDate, Date returnDate) {
+        this.bookId = bookId;
+        this.userId = userId;
+        this.reservationDate = reservationDate;
+        this.returnDate = returnDate;
+    }
+
     public long getId() {
         return id;
     }
