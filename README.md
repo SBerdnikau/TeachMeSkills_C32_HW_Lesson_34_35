@@ -1,6 +1,6 @@
 # Here, the following tasks are implemented:
 
-**Task 1**
+**Task 34**
 
 1. Create triggers that will write data to the logs table when updating/deleting users in the database.
 2. Create a function that will return the login of the last registered user in the database.
@@ -9,6 +9,6 @@ Books (id, title, author, year of publication)
 Readers (id, name, email)
 Reservations (id, book_id, reader_id, booking_date, return_date)
 
-**Task 2**
+**Task 35**
 
 Connect Flyway to manage table migrations from the previous homework (Library Management System).
