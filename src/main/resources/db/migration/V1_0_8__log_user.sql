@@ -1,10 +1,16 @@
-create function log_user() returns trigger
+create function public.log_user() returns trigger
     language plpgsql
 as
 $$
 BEGIN
-    INSERT INTO logs(id, action, action_time, user_id) VALUES (DEFAULT, 'Added user id= ' || NEW.id, DEFAULT,  NEW.id);
-    RETURN NEW;
+    IF TG_OP = 'UPDATE' THEN
+        INSERT INTO logs (id, action, action_time, user_id) VALUES (DEFAULT, 'UPDATE', DEFAULT, OLD.id);
+        RETURN NEW;
+    ELSIF TG_OP = 'DELETE' THEN
+        INSERT INTO logs (id, action, action_time, user_id) VALUES (DEFAULT, 'DELETE',DEFAULT, OLD.id);
+        RETURN OLD;
+    END IF;
+    RETURN NULL;
 END;
 $$;
 
